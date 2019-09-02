@@ -13,13 +13,22 @@ html = """
 Height: {1} m
 """
 
+def elevation_gradient(elevation):
+    if elevation < 2000:
+        return 'green'
+    elif 2000 <= elevation <= 3000:
+        return 'orange'
+    else:
+        return 'red'
+
+
 map = folium.Map(location=(38.58, -99.09), zoom_start=6, tiles="Stamen Terrain")
 
 fg = folium.FeatureGroup(name='My Map')
 
 for lt, ln, el, nm in zip(lat, lon, elev, name):
     iframe = folium.IFrame(html=html.format(nm, el), width=200, height=100)
-    fg.add_child(folium.Marker(location=[lt, ln], popup=folium.Popup(iframe), icon=folium.Icon(color='green')))
+    fg.add_child(folium.CircleMarker(location=[lt, ln], popup=folium.Popup(iframe), radius=5, fill=True, color=elevation_gradient(el)))
 
 map.add_child(fg)
 
