@@ -2,10 +2,10 @@ import folium
 import pandas
 
 data = pandas.read_csv("Volcanoes.txt")
-lat = list(data["LAT"])
-lon = list(data["LON"])
-name = list(data["NAME"])
-elev = list(data["ELEV"])
+lats = list(data["LAT"])
+lons = list(data["LON"])
+names = list(data["NAME"])
+elevs = list(data["ELEV"])
 
 html = """
 <h4>Volcano name:<br>
@@ -24,12 +24,22 @@ def elevation_gradient(elevation):
 
 map = folium.Map(location=(38.58, -99.09), zoom_start=6, tiles="Stamen Terrain")
 
-fg = folium.FeatureGroup(name='My Map')
+fgv = folium.FeatureGroup(name='Volcanoes in US')
 
-for lt, ln, el, nm in zip(lat, lon, elev, name):
-    iframe = folium.IFrame(html=html.format(nm, el), width=200, height=100)
-    fg.add_child(folium.CircleMarker(location=[lt, ln], popup=folium.Popup(iframe), radius=5, fill=True, color=elevation_gradient(el)))
+for lat, lon, elev, name in zip(lats, lons, elevs, names):
+    iframe = folium.IFrame(html=html.format(name, elev), width=200, height=100)
+    fgv.add_child(folium.CircleMarker(location=[lat, lon], popup=folium.Popup(iframe), radius=5, fill=True, color=elevation_gradient(elev)))
 
-map.add_child(fg)
+
+fgp = folium.FeatureGroup(name='Population')
+fgp.add_child(folium.GeoJson(data=open('world.json', 'r', encoding='utf-8-sig').read(),
+                                    style_function=lambda x: {'fillColor': 'green' if x['properties']['POP2005'] < 10000000
+                                                                                    else 'yellow' if 10000000 <= x['properties']['POP2005'] <= 20000000 
+                                                                                    else 'red'}))
+
+
+map.add_child(fgv)
+map.add_child(fgp)
+map.add_child(folium.LayerControl())
 
 map.save("Map1.html")
