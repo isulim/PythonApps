@@ -108,3 +108,4 @@ venv.bak/
 
 # SQLite3
 *.db
+!bookshelf.db
