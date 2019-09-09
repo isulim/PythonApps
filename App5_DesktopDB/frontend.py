@@ -64,10 +64,10 @@ b2.grid(row=3, column=3)
 b3 = tkinter.Button(window, text='Add entry', width=12)
 b3.grid(row=4, column=3)
 
-b4 = tkinter.Button(window, text='Update', width=12)
+b4 = tkinter.Button(window, text='Update selected', width=12)
 b4.grid(row=5, column=3)
 
-b5 = tkinter.Button(window, text='Delete', width=12)
+b5 = tkinter.Button(window, text='Delete selected', width=12)
 b5.grid(row=6, column=3)
 
 b6 = tkinter.Button(window, text='Close', width=12)
