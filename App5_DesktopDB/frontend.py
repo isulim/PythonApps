@@ -64,7 +64,8 @@ def delete_command():
 
 
 def update_command():
-    backend.update(selected, title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+    backend.update(selected, title_text.get(), author_text.get(), 
+                   year_text.get(), isbn_text.get())
     view_command()
 
 root = tkinter.Tk()
@@ -124,22 +125,28 @@ listBox.bind('<<ListboxSelect>>', get_row)
 
 
 # Buttons
-button_view = tkinter.Button(window, text='View all', width=12, command=view_command)
+button_view = tkinter.Button(window, text='View all', width=12, 
+                                     command=view_command)
 button_view.grid(row=2, column=3)
 
-button_search = tkinter.Button(window, text='Search entry', width=12, command=search_command)
+button_search = tkinter.Button(window, text='Search entry', width=12,
+                                       command=search_command)
 button_search.grid(row=3, column=3)
 
-button_add = tkinter.Button(window, text='Add entry', width=12, command=insert_command)
+button_add = tkinter.Button(window, text='Add entry', width=12, 
+                                    command=insert_command)
 button_add.grid(row=4, column=3)
 
-button_update = tkinter.Button(window, text='Update selected', width=12, command=update_command)
+button_update = tkinter.Button(window, text='Update selected', width=12, 
+                                       command=update_command)
 button_update.grid(row=5, column=3)
 
-button_delete = tkinter.Button(window, text='Delete selected', width=12, command=delete_command)
+button_delete = tkinter.Button(window, text='Delete selected', width=12, 
+                                       command=delete_command)
 button_delete.grid(row=6, column=3)
 
-button_close = tkinter.Button(window, text='Close', width=12, command=root.destroy)
+button_close = tkinter.Button(window, text='Close', width=12, 
+                                      command=root.destroy)
 button_close.grid(row=7, column=3)
 
 
