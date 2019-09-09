@@ -55,7 +55,7 @@ def get_row(event):
         entry_isbn.delete(0, tkinter.END)
         entry_isbn.insert(tkinter.END, data[4])
     
-    except IndexError:
+    except IndexError: # When listbox is empty
         pass
 
 def delete_command():
