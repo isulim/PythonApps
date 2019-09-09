@@ -143,5 +143,5 @@ button_close = tkinter.Button(window, text='Close', width=12, command=root.destr
 button_close.grid(row=7, column=3)
 
 
-
+backend.create_table()
 root.mainloop()
