@@ -13,24 +13,27 @@ Close
 """
 
 import tkinter
-import backend
+from backend import Database
+
+
+bookshelf = Database("bookshelf.db")
 
 
 def view_command():
     listBox.delete(0, tkinter.END)
-    for row in backend.view_all():
+    for row in bookshelf.view_all():
         listBox.insert(tkinter.END, row)
 
 
 def search_command():
     listBox.delete(0, tkinter.END)
-    for row in backend.search(title_text.get(), author_text.get(), 
+    for row in bookshelf.search(title_text.get(), author_text.get(), 
                               year_text.get(), isbn_text.get()):
         listBox.insert(tkinter.END, row)
 
 
 def insert_command():
-    backend.insert(title_text.get(), author_text.get(),
+    bookshelf.insert(title_text.get(), author_text.get(),
                   year_text.get(), isbn_text.get())
     view_command()        
 
@@ -59,12 +62,12 @@ def get_row(event):
         pass
 
 def delete_command():
-    backend.delete(selected)
+    bookshelf.delete(selected)
     view_command()
 
 
 def update_command():
-    backend.update(selected, title_text.get(), author_text.get(), 
+    bookshelf.update(selected, title_text.get(), author_text.get(), 
                    year_text.get(), isbn_text.get())
     view_command()
 
@@ -150,5 +153,5 @@ button_close = tkinter.Button(window, text='Close', width=12,
 button_close.grid(row=7, column=3)
 
 
-backend.create_table()
+
 root.mainloop()
