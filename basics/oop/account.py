@@ -1,10 +1,10 @@
 class Account():
 
-    def __init__(self, filepath):
+    def __init__(self, balance, filepath):
         self.file = filepath
-        with open(self.file, 'r') as file:
-            self.balance = float(file.read())
-
+        self.balance = balance
+        with open(self.file, 'w') as file:
+            file.write(str(balance))
 
     def __str__(self):
         return str(self.balance)
@@ -31,7 +31,7 @@ class Account():
             file.write(str(self.balance))
 
 
-account = Account("balance.txt")
+account = Account(1000, "balance.txt")
 print(account)
 account.deposit(2050)
 print(account)
