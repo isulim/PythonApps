@@ -33,8 +33,25 @@ class Account():
             file.write(str(self.balance))
 
 
+class Checking(Account):
+
+    def __init__(self, balance, transferFee, filename):
+        super().__init__(balance, filename)
+        self.fee = transferFee
+
+    def transfer(self, amount):
+        if self.balance > (amount + self.fee):
+            self.balance -= (amount + self.fee)
+            self.commit()
+        else:
+            print("Insufficient funds.")
+
 account = Account(1500, "balance.txt")
 print(account)
 account.deposit(700)
 account.withdraw(350)
 print(account)
+
+checking = Checking(2000, 10, "balance2.txt")
+checking.transfer(1000)
+print(checking)
