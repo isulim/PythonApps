@@ -1,9 +1,11 @@
+import os
+
 class Account():
 
-    def __init__(self, balance, filepath):
-        self.file = filepath
+    def __init__(self, balance, filename):
+        self.filepath = os.path.dirname(os.path.abspath(__file__)) + "/" + filename
         self.balance = balance
-        with open(self.file, 'w') as file:
+        with open(self.filepath, 'w') as file:
             file.write(str(balance))
 
     def __str__(self):
@@ -27,11 +29,12 @@ class Account():
 
 
     def commit(self):
-        with open(self.file, 'w') as file:
+        with open(self.filepath, 'w') as file:
             file.write(str(self.balance))
 
 
-account = Account(1000, "balance.txt")
+account = Account(1500, "balance.txt")
 print(account)
-account.deposit(2050)
+account.deposit(700)
+account.withdraw(350)
 print(account)
