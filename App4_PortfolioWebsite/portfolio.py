@@ -1,3 +1,9 @@
+"""
+Smallest possible website made in Flask, deployed on Heroku.
+[Heroku deploy](https://morning-harbor-41773.herokuapp.com/)
+"""
+
+
 from flask import Flask, render_template
 
 

@@ -1,7 +1,13 @@
+"""
+Dictionary app with command line interface.
+Input an English word and get a dictionary description.
+"""
+
 from json import load as loadJSON
 from difflib import get_close_matches
 
 data = loadJSON(open("App1_Dictionary/data.json"))
+
 
 def translate(word) -> str:
     word = word.lower()

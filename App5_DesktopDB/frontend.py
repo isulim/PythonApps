@@ -1,19 +1,18 @@
 """
-A program to store book informations:
+A GUI app with database of books (Tkinter and SQLite3).
+Program stores book informations:
 Title, Author, Year, ISBN
 
 User can:
-
-View records
-Search an entry
-Add an entry
-Update an entry
-Delete an entry
-Close
+- view records
+- search an entry
+- add an entry
+- update an entry
+- delete an entry
 """
 
 import tkinter
-from backend import Database
+from App5_DesktopDB.backend import Database
 
 
 bookshelf = Database("bookshelf.db")

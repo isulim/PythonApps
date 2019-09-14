@@ -1,3 +1,9 @@
+"""
+A Python script blocking certain websites in specified hours.
+Script blocks sites by redirecting their URLs to localhost
+by editing 'hosts' file.
+"""
+
 from platform import system
 from time import sleep
 from datetime import datetime

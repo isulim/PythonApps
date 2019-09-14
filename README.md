@@ -17,8 +17,7 @@ representing population count.
 ## App3 - Website Blocker
 
 A Python script blocking certain websites in specified hours.<br>
-Script blocks sites by redirecting their URLs to localhost.
-To do this, it modifies 'hosts' file.
+Script blocks sites by redirecting their URLs to localhost by editing 'hosts' file.
 
 ## App4 - Flask Website
 

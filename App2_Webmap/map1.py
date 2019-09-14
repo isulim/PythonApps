@@ -1,3 +1,10 @@
+"""
+Webmap created with Folium.
+Map contains base layer, volcanoes in US (from Volcanoes.txt)
+and world population in 2005 (from world.json) with three colors
+representing population count.
+"""
+
 import folium
 import pandas
 
