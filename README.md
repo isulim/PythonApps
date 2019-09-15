@@ -28,3 +28,7 @@ Smallest possible website made in Flask, deployed on Heroku.<br>
 
 A GUI app with database of books (Tkinter and SQLite3).<br>
 User can add, view, update, delete and search books.
+
+## App6 - Motion Detection
+App to detect objects moving in sight of webcam (OpenCV).<br>
+App records times when any object enters webcam's field of view and when all objects are gone.
