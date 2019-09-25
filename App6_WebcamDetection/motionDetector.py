@@ -1,5 +1,5 @@
 import cv2.cv2 as cv2
-from pandas import DataFrame
+from pandas import DataFrame, read_csv
 from datetime import datetime
 from App6_WebcamDetection.plotting import PlotGraph
 
@@ -67,6 +67,8 @@ cv2.destroyAllWindows()
 for i in range(0, len(times), 2):
     df = df.append({"Start": times[i], "End": times[i+1]}, ignore_index=True)
 df.to_csv("Times.csv")
+
+print(df.to_string())
 
 # Plot graph with Bokeh
 graph1 = PlotGraph(df, "graph1")
