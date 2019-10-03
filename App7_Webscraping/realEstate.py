@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from pandas import DataFrame
 
 
 r = requests.get("http://www.pyclass.com/real-estate/rock-springs-wy/LCWYROCKSPRINGS/", 
@@ -12,24 +13,37 @@ soup = BeautifulSoup(content, "html.parser")
 
 property_rows = soup.find_all("div",{"class": "propertyRow"})
 
+l = []
 for row in property_rows:
-    price = row.find("h4", {"class": "propPrice"}).text.strip()
-    address = row.find_all("span", {"class": "propAddressCollapse"})
+    d = {}
+    d["Price"] = row.find("h4", {"class": "propPrice"}).text.strip()
+    d["Address"] = row.find_all("span", {"class": "propAddressCollapse"})[0].text
+    d["Location"] = row.find_all("span", {"class": "propAddressCollapse"})[1].text
     try:
-        beds = row.find("span", {"class": "infoBed"}).find("b").text
+        d["Beds"] = row.find("span", {"class": "infoBed"}).find("b").text
     except AttributeError:
-        beds = "N/A"
+        d["Beds"] = "N/A"
     try:
-        area = row.find("span", {"class": "infoSqFt"}).find("b").text
+        d["Area"] = row.find("span", {"class": "infoSqFt"}).find("b").text
     except AttributeError:
-        area = "N/A"
+        d["Area"] = "N/A"
     try:
-        full_baths = row.find("span", {"class": "infoValueFullBath"}).find("b").text
+        d["Full baths"] = row.find("span", {"class": "infoValueFullBath"}).find("b").text
     except AttributeError:
-        full_baths = "N/A"
+        d["Full baths"] = "N/A"
     try:
-        half_baths = row.find("span", {"class": "infoValueHalfBath"}).find("b").text
+        d["Half baths"] = row.find("span", {"class": "infoValueHalfBath"}).find("b").text
     except AttributeError:
-        half_baths = "N/A"
+        d["Half baths"] = "N/A"
 
-    print(price, address[0].text, address[1].text, beds, area, full_baths, half_baths, "\n")
+    for column_group in row.find_all("div", {"class": "columnGroup"}):
+        for feature_group, feature_name in zip(column_group.find_all(
+                                               "span", {"class": "featureGroup"}), 
+                                               column_group.find_all(
+                                               "span", {"class": "featureName"})):
+            if "Lot Size" in feature_group.text:
+                d["Lot size"] = feature_name.text
+    l.append(d)
+
+df = DataFrame(l)
+df.to_csv("./App7_Webscraping/Output.csv")
