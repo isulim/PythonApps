@@ -10,10 +10,11 @@
     <div class="container">
         <h1>Collecting height</h1>
         <h3>Please fill the form to get statistics on height</h3>
-        <form method="post" action="success.html">
-            <input required name="email_name" type="email" title="Your email"
+        <div class="message">{{ message | safe }}</div>
+        <form method="POST" action="{{url_for('success')}}">
+            <input required name="email" type="email" title="Your email"
                    placeholder="Enter your email address"><br>
-            <input required name="height_value" type="number" title="Your height" min="50" max="300" step="0.1"
+            <input required name="height" type="number" title="Your height" min="50" max="300" step="0.1"
                    placeholder="Enter your height in cm"><br>
             <button type="submit">Submit form</button>
         </form>
