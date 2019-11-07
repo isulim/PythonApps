@@ -4,7 +4,8 @@ from sqlalchemy.sql import func
 from send_mail import send_email
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:postgres@localhost/collector'
+app.config['SQLALCHEMY_DATABASE_URI']='postgres://wpivnlbekaexqe:172ff3baa24fb18b87267dc7f325d3fd65ca6e97e57009f45fce1ad3408eb472@ec2-54-235-104-136.compute-1.amazonaws.com:5432/devdqpo99sbden?sslmode=require'
+
 db = SQLAlchemy(app)
 
 
@@ -43,4 +44,4 @@ def success():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
