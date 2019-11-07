@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
+from send_mail import send_email
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:postgres@localhost/collector'
@@ -31,6 +33,10 @@ def success():
             data = Data(email_, height_)
             db.session.add(data)
             db.session.commit()
+            total_users = db.session.query(Data.height).count()
+            avg_height = db.session.query(func.avg(Data.height)).scalar()
+            avg_height = round(avg_height, 2)
+            send_email(email_, height_, avg_height, total_users)
             return render_template("success.html")
         else:
             return render_template("index.html", message="Seems like you already submitted a form.")
