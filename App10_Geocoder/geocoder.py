@@ -15,10 +15,12 @@ def index():
 @app.route("/geocode", methods=['POST'])
 def geocode():
     if request.method == 'POST':
+        # Get CSV file from request, save and get data
         file = request.files['file']
         file.save(secure_filename("raw_" + file.filename))
         data = read_csv("raw_" + file.filename)
 
+        # Try to save column 'Address' or 'address' to a variable
         try:
             addresses = data.loc[:, 'Address']
         except KeyError:
@@ -31,19 +33,16 @@ def geocode():
                                                              found in your file.<br>
                                                              Please try again.</h4>""")
 
+        # Create ArcGIS object,
+        # apply methods on pandas DF - get None coordinates, if geocoding not possible
+        # export processed data to CSV
         arcgis = ArcGIS()
-        latitude = []
-        longitude = []
-        for row in addresses:
-            location = arcgis.geocode(row)
-            latitude.append(location.latitude)
-            longitude.append(location.longitude)
-
-        data['Latitude'] = latitude
-        data['Longitude'] = longitude
-
+        coords = addresses.apply(arcgis.geocode)
+        data['Latitude'] = coords.apply(lambda x: x.latitude if x is not None else None)
+        data['Longitude'] = coords.apply(lambda x: x.longitude if x is not None else None)
         data.to_csv("geocoded_" + file.filename)
 
+        # Save filename in session to download
         session['filename'] = "geocoded_" + file.filename
 
         return render_template("geocode.html", table=data.to_html())
