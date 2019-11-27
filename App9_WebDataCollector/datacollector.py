@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file, session
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from send_mail import send_email
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='postgres://wpivnlbekaexqe:172ff3baa24fb18b87267dc7f325d3fd65ca6e97e57009f45fce1ad3408eb472@ec2-54-235-104-136.compute-1.amazonaws.com:5432/devdqpo99sbden?sslmode=require'
-
+sess = Session()
 db = SQLAlchemy(app)
 
 
@@ -28,20 +30,23 @@ def index():
 @app.route("/success", methods=['POST'])
 def success():
     if request.method == 'POST':
-        email_ = request.form.get("email")
-        height_ = request.form.get("height")
-        if db.session.query(Data).filter(Data.email == email_).count() == 0:
-            data = Data(email_, height_)
-            db.session.add(data)
-            db.session.commit()
-            total_users = db.session.query(Data.height).count()
-            avg_height = db.session.query(func.avg(Data.height)).scalar()
-            avg_height = round(avg_height, 2)
-            send_email(email_, height_, avg_height, total_users)
-            return render_template("success.html")
-        else:
-            return render_template("index.html", message="Seems like you already submitted a form.")
+        file = request.files["file"]
+        file.save(secure_filename("uploaded_" + file.filename))
+        session['filename'] = "uploaded_" + file.filename
+        with open("uploaded_" + file.filename, "a") as f:
+            f.write("This is added.")
+        return render_template("index.html", btn="download.html")
+
+
+@app.route("/download", methods=['GET'])
+def download():
+    return send_file(session['filename'], attachment_filename="yourfile.csv", as_attachment=True)
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.secret_key = "secretkey"
+    app.config['SESSION_TYPE'] = 'filesystem'
+
+    sess.init_app(app)
+
+    app.run(debug=True)
