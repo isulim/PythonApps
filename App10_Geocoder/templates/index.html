@@ -11,6 +11,7 @@
         <h1>Geocoder</h1>
         <h3>Please upload your CSV file.</h3>
         <h4>Values containing addresses should be in a column titled <i>Address</i> or <i>address</i>.</h4>
+        <div class="text">{{ text | safe }}</div>
         <form method="POST" action="{{url_for('geocode')}}">
             <input required type="file" name="file" enctype="multipart/form-data"><br>
             <button type="submit">Submit</button>

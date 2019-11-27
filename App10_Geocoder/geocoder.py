@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 
 app = Flask(__name__)
@@ -10,8 +10,11 @@ def index():
 
 @app.route("/geocode", methods=['POST'])
 def geocode():
-    return render_template("geocode.html")
-
+    if request.method == 'POST':
+        file = request.files['file']
+        return render_template("geocode.html")
+    return render_template("index.html", 
+    text="Something went wrong.<br>Check your file and try again please.")
 
 if __name__ == "__main__":
     app.run(debug=True)
