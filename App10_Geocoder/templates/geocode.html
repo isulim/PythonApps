@@ -3,6 +3,8 @@
 {% block geocode %}
 <div class="geocode" align="center">
     {{ table | safe }}
-    <button type="submit">Download</button>
+    <a href="{{ url_for('download')}}" target="blank">
+        <button class="btn">Download</button>
+    </a>
 </div>
 {% endblock geocode %}

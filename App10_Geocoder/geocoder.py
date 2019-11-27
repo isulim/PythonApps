@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file, session
 from werkzeug.utils import secure_filename
 from pandas import read_csv
 from geopy.geocoders import ArcGIS
 
 app = Flask(__name__)
+app.secret_key = 'most_secret_key_ever_made'
 
 
 @app.route("/", methods=['GET'])
@@ -43,10 +44,17 @@ def geocode():
 
         data.to_csv("geocoded_" + file.filename)
 
+        session['filename'] = "geocoded_" + file.filename
+
         return render_template("geocode.html", table=data.to_html())
     return render_template("index.html", text="Something went wrong."
                                               "<br>Check your file and "
                                               "try again please.")
+
+
+@app.route("/download")
+def download():
+    return send_file(session.get('filename'), as_attachment=True)
 
 
 if __name__ == "__main__":
